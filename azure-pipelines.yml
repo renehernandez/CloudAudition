@@ -1,0 +1,23 @@
+pr:
+  - master
+
+resources:
+  - repo: self
+
+
+variables:
+  vmImageName: 'ubuntu-latest'
+
+stages:
+  - stage: Build
+    displayName: 'Build Components'
+    jobs:
+      - job: BuildCloudAuditionApi
+        pool:
+          vmImage: $(vmImageName)
+
+        steps:
+        - task: PowerShell@2
+          inputs:
+            workingDirectory: './CloudAuditionApi'
+            script: dotnet build
