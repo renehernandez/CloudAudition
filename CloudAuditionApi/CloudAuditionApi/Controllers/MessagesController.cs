@@ -1,9 +1,10 @@
+using CloudAuditionApi.DatabaseService;
+using CloudAuditionApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CloudAuditionApi.Models;
 
 namespace CloudAuditionApi.Controllers
 {
@@ -11,29 +12,23 @@ namespace CloudAuditionApi.Controllers
     [ApiController]
     public class MessagesController : ControllerBase
     {
-        private readonly MessageContext _context;
+        private readonly IMessageDbService _service;
 
-        public MessagesController(MessageContext context)
+        public MessagesController(IMessageDbService service)
         {
-            _context = context;
-
-            if (_context.Messages.Count() == 0)
-            {
-                _context.Messages.Add(new Message { Content = "Not a palindrome" });
-                _context.SaveChanges();
-            }
+            _service = service;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Message>>> GetMessages()
         {
-            return await _context.Messages.ToListAsync();
+            return await _service.GetAllAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Message>> GetMessage(long id)
         {
-            var message = await _context.Messages.FindAsync(id);
+            var message = await _service.FindAsync(id);
 
             if (message == null)
             {

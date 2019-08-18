@@ -27,6 +27,7 @@ namespace CloudAuditionApi.UnitTests
             });
         }
 
+        [Test]
         public void PassWithIdGreaterThanZero() 
         {
             var message = new Message { Id = 3, Content = "Hello World" };

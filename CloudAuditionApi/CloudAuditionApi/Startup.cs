@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CloudAuditionApi.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using CloudAuditionApi.DatabaseService;
+using CloudAuditionApi.Models;
 
 namespace CloudAuditionApi
 {
@@ -27,6 +28,7 @@ namespace CloudAuditionApi
             );
             services.AddMvc().AddFluentValidation().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddScoped<IMessageDbService, MessageDbService>();
             services.AddTransient<IValidator<Message>, MessageValidator>();
         }
 
