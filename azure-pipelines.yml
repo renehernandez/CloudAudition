@@ -1,0 +1,38 @@
+pr:
+  - master
+
+resources:
+  - repo: self
+
+
+variables:
+  vmImageName: 'ubuntu-latest'
+
+stages:
+  - stage: Build
+    displayName: 'Build Components'
+    jobs:
+      - job: BuildCloudAuditionApi
+        displayName: 'Build CloudAuditionApi'
+        pool:
+          vmImage: $(vmImageName)
+
+        steps:
+        - task: PowerShell@2
+          inputs:
+            filePath: ./build.ps1
+            arguments: -Task 'Build' -Project CloudAuditionApi
+
+  - stage: UnitTest
+    displayName: 'UnitTest Components'
+    jobs:
+      - job: UnitTestCloudAuditionApi
+        displayName: 'UnitTest CloudAuditionApi'
+        pool:
+          vmImage: $(vmImageName)
+
+        steps:
+        - task: PowerShell@2
+          inputs:
+            filePath: ./build.ps1
+            arguments: -Task 'UnitTest' -Project CloudAuditionApi
