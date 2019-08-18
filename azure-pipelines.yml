@@ -19,5 +19,5 @@ stages:
         steps:
         - task: PowerShell@2
           inputs:
-            workingDirectory: './CloudAuditionApi'
-            script: dotnet build
+            filePath: ./build.ps1
+            arguments: -Task 'Build'
