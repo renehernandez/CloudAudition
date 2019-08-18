@@ -1,0 +1,21 @@
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2
+
+WORKDIR /app
+
+COPY ./*.sln ./
+
+COPY ./CloudAuditionApi/*.csproj ./CloudAuditionApi/
+
+COPY ./CloudAuditionApi.UnitTests/*.csproj ./CloudAuditionApi.UnitTests/
+
+COPY ./CloudAuditionApi.IntegrationTests/*.csproj ./CloudAuditionApi.IntegrationTests/
+
+RUN dotnet restore
+
+COPY . ./
+
+RUN ["dotnet", "build"]
+
+EXPOSE 80
+
+CMD ["dotnet"]

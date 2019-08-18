@@ -7,14 +7,17 @@ param (
     [Parameter()]
     [ValidateSet('CloudAuditionApi')]
     [string]
-    $Project,
-    [Parameter()]
-    [switch]
-    $UseDocker
+    $Project
 )
 
 
 $isDockerPresent = (Get-Command -Name 'docker*' | Measure-Object).Count -ne 0
+
+if (-not $isDockerPresent) {
+    Write-Warning "Could not find docker executable, which is required for pipeline execution"
+    Write-Warning "Please go visit https://docs.docker.com/install/overview/ to find a suitable option"
+    return
+}
 
 Write-Host "Start pipeline execution"
 

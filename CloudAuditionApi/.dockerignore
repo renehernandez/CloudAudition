@@ -1,4 +1,4 @@
 PSDependencies
 Dockerfile*
-bin\
-obj\
+*/bin/
+*/obj/
