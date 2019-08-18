@@ -20,4 +20,17 @@ stages:
         - task: PowerShell@2
           inputs:
             filePath: ./build.ps1
-            arguments: -Task 'Build'
+            arguments: -Task 'Build' -Project CloudAuditionApi
+
+  - stage: UnitTest
+    displayName: 'Unit Test Components'
+    jobs:
+      - job: UnitTestCloudAuditionApi
+        pool:
+          vmImage: $(vmImageName)
+
+        steps:
+        - task: PowerShell@2
+          inputs:
+            filePath: ./build.ps1
+            arguments: -Task 'UnitTest' -Project CloudAuditionApi

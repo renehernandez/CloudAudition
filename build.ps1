@@ -5,6 +5,10 @@ param (
     [string]
     $Task = 'Default',
     [Parameter()]
+    [ValidateSet('CloudAuditionApi')]
+    [string]
+    $Project,
+    [Parameter()]
     [switch]
     $UseDocker
 )
@@ -33,6 +37,10 @@ $params = @{
 $buildProjectFiles = Get-ChildItem -Path $PSScriptRoot -File -Filter '*.build.ps1' -Recurse -Depth 1
 
 foreach ($buildFile in $buildProjectFiles) {
+    if ($ProjectName -and ($buildFile.BaseName -notlike "$ProjectName*")) {
+        continue
+    }
+    
     Write-Host "Start pipeline tasks for $($buildFile.BaseName)"
     $params.File = $buildFile.FullName
     Invoke-Build @params
