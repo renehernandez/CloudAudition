@@ -17,13 +17,13 @@ Task Build {
 
 Task UnitTest Build, {
     Invoke-BuildExec {
-        docker-compose -f $DockerComposePath run --service-ports cloud_audition_api dotnet test ./CloudAuditionApi.UnitTests
+        docker-compose -f $DockerComposePath run --service-ports api dotnet test ./CloudAuditionApi.UnitTests
     }
 }
 
 
 Task IntegrationTest Build, {
     Invoke-BuildExec {
-        docker-compose -f $DockerComposePath run --service-ports cloud_audition_api dotnet test ./CloudAuditionApi.IntegrationTests
+        docker-compose -f $DockerComposePath run --service-ports api dotnet test ./CloudAuditionApi.IntegrationTests
     }
 }
