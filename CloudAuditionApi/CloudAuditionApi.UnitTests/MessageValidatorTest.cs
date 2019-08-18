@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using CloudAuditionApi.Validators;
 using CloudAuditionApi.Models;
 
 namespace CloudAuditionApi.UnitTests

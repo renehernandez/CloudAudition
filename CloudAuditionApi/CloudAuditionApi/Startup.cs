@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CloudAuditionApi.Models;
-using CloudAuditionApi.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 
