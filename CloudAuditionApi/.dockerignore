@@ -1,0 +1,4 @@
+PSDependencies
+Dockerfile*
+*/bin/
+*/obj/
