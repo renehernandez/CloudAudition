@@ -2,3 +2,5 @@ PSDependencies
 Dockerfile*
 */bin/
 */obj/
+.env
+*build.ps1
