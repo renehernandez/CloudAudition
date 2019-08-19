@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  api:
+    build: .
+    image: cloudauditionapi
+    ports:
+      - "8000:80"
+    environment:
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - POSTGRES_DB=$POSTGRES_DB
+    depends_on:
+      - db
+    networks:
+      - api_backend
+
+  db:
+    image: postgres:11.5
+    restart: always
+    volumes:
+      - api_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - POSTGRES_DB=$POSTGRES_DB
+    networks:
+      - api_backend
+
+networks:
+  api_backend:
+
+volumes:
+  api_db:

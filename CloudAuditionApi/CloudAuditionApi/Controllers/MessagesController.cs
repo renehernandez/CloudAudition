@@ -1,5 +1,6 @@
 using CloudAuditionApi.DatabaseService;
 using CloudAuditionApi.Models;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -20,13 +21,13 @@ namespace CloudAuditionApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Message>>> GetMessages()
+        public async Task<ActionResult<IEnumerable<Message>>> GetMessagesAsync()
         {
             return await _service.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Message>> GetMessage(long id)
+        public async Task<ActionResult<Message>> GetMessageAsync(long id)
         {
             var message = await _service.FindAsync(id);
 
@@ -36,6 +37,42 @@ namespace CloudAuditionApi.Controllers
             }
 
             return message;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateAsync(Message message)
+        {
+            await _service.CreateAsync(message);
+
+            return CreatedAtAction(nameof(GetMessageAsync), new { id = message.Id }, message);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAsync(long id, Message message)
+        {
+            if (id != message.Id)
+            {
+                return BadRequest();
+            }
+
+            await _service.UpdateAsync(message);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(long id)
+        {
+            var message = await _service.FindAsync(id);
+
+            if (message == null)
+            {
+                return NotFound();
+            }
+
+            await _service.DeleteAsync(message);
+
+            return NoContent();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace CloudAuditionApi.UnitTests
 
             var controller = new MessagesController(mockService.Object);
 
-            var result = await controller.GetMessages();
+            var result = await controller.GetMessagesAsync();
 
             Assert.That(result.Value.Count(), Is.EqualTo(2));
         }
@@ -39,7 +39,7 @@ namespace CloudAuditionApi.UnitTests
 
             var controller = new MessagesController(mockService.Object);
 
-            var result = await controller.GetMessage(3);
+            var result = await controller.GetMessageAsync(3);
 
             Assert.That(result.Value.Id, Is.EqualTo(3));
         }

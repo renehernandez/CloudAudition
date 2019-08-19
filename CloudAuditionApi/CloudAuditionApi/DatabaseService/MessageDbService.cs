@@ -10,35 +10,44 @@ namespace CloudAuditionApi.DatabaseService
         Task<List<Message>> GetAllAsync();
 
         Task<Message> FindAsync(long id);
+
+        Task CreateAsync(Message message);
+
+        Task UpdateAsync(Message message);
+
+        Task DeleteAsync(Message message);
     }
 
     public class MessageDbService : IMessageDbService
     {
-        MessageContext _context;
+        CloudAuditionApiContext _context;
 
-        public MessageDbService(MessageContext context)
+        public MessageDbService(CloudAuditionApiContext context)
         {
             _context = context;
         }
 
-        public async Task<List<Message>> GetAllAsync() 
+        public async Task<List<Message>> GetAllAsync() => await _context.Messages.ToListAsync();
+
+        public async Task<Message> FindAsync(long id) => await _context.Messages.FindAsync(id);
+
+        public async Task CreateAsync(Message message) 
         {
-            return await _context.Messages.ToListAsync();
+            _context.Messages.Add(message);
+
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<Message> FindAsync(long id)
+        public async Task UpdateAsync(Message message) 
         {
-            return await _context.Messages.FindAsync(id);
-        }
-    }
-
-    public class MessageContext : DbContext
-    {
-        public MessageContext(DbContextOptions<MessageContext> options)
-            : base(options)
-        {
+            _context.Entry(message).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
-        public DbSet<Message> Messages { get; set; }
+        public async Task DeleteAsync(Message message)
+        {
+            _context.Messages.Remove(message);
+            await _context.SaveChangesAsync();
+        }
     }
 }
