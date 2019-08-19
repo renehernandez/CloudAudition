@@ -36,3 +36,22 @@ stages:
           inputs:
             filePath: ./build.ps1
             arguments: -Task 'UnitTest' -Project CloudAuditionApi
+
+  - stage: IntegrationTest
+    displayName: 'IntegrationTest Components'
+    jobs:
+      - job: IntegrationTestCloudAuditionApi
+        displayName: 'IntegrationTest CloudAuditionApi'
+        pool:
+          vmImage: $(vmImageName)
+
+        steps:
+        - task: PowerShell@2
+          inputs:
+            filePath: ./build.ps1
+            arguments: -Task 'IntegrationTest' -Project CloudAuditionApi
+          env:
+            POSTGRES_USER: $(POSTGRES_USER)
+            POSTGRES_PASSWORD: $(POSTGRES_PASSWORD)
+            POSTGRES_DB: $(POSTGRES_DB)
+          

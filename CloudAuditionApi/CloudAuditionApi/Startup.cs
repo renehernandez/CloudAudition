@@ -15,7 +15,7 @@ namespace CloudAuditionApi
 {
     public class Startup
     {
-        private readonly ILoggerFactory _loggerFactory;
+        protected readonly ILoggerFactory _loggerFactory;
 
         public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
@@ -60,7 +60,7 @@ namespace CloudAuditionApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetService<CloudAuditionApiContext>();

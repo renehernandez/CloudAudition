@@ -38,21 +38,26 @@ $params = @{
 }
 
 $buildProjectFiles = Get-ChildItem -Path $PSScriptRoot -File -Filter '*.build.ps1' -Recurse -Depth 1
+$currentLocation = (Get-Location).Path
 
 foreach ($buildFile in $buildProjectFiles) {
     if ($ProjectName -and ($buildFile.BaseName -notlike "$ProjectName*")) {
         continue
     }
-    
-    Write-Host "Start pipeline tasks for $($buildFile.BaseName)"
-    $params.File = $buildFile.FullName
-    Invoke-Build @params
+    try {
+        Write-Host "Start pipeline tasks for $($buildFile.BaseName)"
+        $params.File = $buildFile.FullName
+        Invoke-Build @params
 
-    if ($Result.Error) {
-        foreach ($task in $Result.Tasks) {
-            if ($task.Error) {
-                Write-Error "Task '$($task.Name)' at $($task.InvocationInfo.ScriptName):$($task.InvocationInfo.ScriptLineNumber)"
+        if ($Result.Error) {
+            foreach ($task in $Result.Tasks) {
+                if ($task.Error) {
+                    Write-Error "Task '$($task.Name)' at $($task.InvocationInfo.ScriptName):$($task.InvocationInfo.ScriptLineNumber)"
+                }
             }
         }
+    }
+    finally {
+        Set-Location -Path $currentLocation
     }
 }
