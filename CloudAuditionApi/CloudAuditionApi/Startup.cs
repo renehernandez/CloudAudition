@@ -50,8 +50,8 @@ namespace CloudAuditionApi
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { 
-                    Title = "CloudAudition API", 
+                c.SwaggerDoc("v1", new OpenApiInfo {
+                    Title = "CloudAudition API",
                     Version = "v1",
                     Description = "CloudAudition is an API-focused project used to showcase cloud practices",
                     Contact = new OpenApiContact
@@ -81,7 +81,7 @@ namespace CloudAuditionApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetService<CloudAuditionApiContext>();
