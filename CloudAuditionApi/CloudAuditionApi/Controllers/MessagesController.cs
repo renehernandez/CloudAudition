@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace CloudAuditionApi.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class MessagesController : ControllerBase
     {
         private readonly IMessageDbService _service;
