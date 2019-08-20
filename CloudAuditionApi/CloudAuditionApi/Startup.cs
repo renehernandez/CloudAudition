@@ -10,6 +10,7 @@ using CloudAuditionApi.DatabaseService;
 using CloudAuditionApi.Models;
 using Microsoft.Extensions.Logging;
 using System;
+using Microsoft.OpenApi.Models;
 
 namespace CloudAuditionApi
 {
@@ -46,6 +47,26 @@ namespace CloudAuditionApi
 
             services.AddScoped<IMessageDbService, MessageDbService>();
             services.AddTransient<IValidator<Message>, MessageValidator>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "CloudAudition API", 
+                    Version = "v1",
+                    Description = "CloudAudition is an API-focused project used to showcase cloud practices",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Rene Hernandez",
+                        Email = string.Empty,
+                        Url = new Uri("https://github.com/renehernandez"),
+                        },
+                        License = new OpenApiLicense
+                        {
+                            Name = "MIT License",
+                            Url = new Uri("https://github.com/renehernandez/CloudAudition/blob/master/LICENSE"),
+                        }
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +87,14 @@ namespace CloudAuditionApi
                 var context = serviceScope.ServiceProvider.GetService<CloudAuditionApiContext>();
                 context.Database.Migrate();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CloudAudition API v1");
+            });
+
 
             app.UseHttpsRedirection();
             app.UseMvc();
