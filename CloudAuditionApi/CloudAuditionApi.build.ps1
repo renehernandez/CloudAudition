@@ -88,7 +88,7 @@ Task PushToDockerHub BuildReleaseDockerImage, {
 }
 
 
-Task BuildReleaseDockerImage Build, {
+Task BuildReleaseDockerImage {
     Invoke-BuildExec {
         docker build -f $ReleaseDockerfilePath `
             -t "$($env:DOCKER_ID)/$VersionedImageName" `
