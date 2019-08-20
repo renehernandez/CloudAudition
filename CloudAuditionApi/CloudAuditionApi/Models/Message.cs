@@ -13,7 +13,6 @@ namespace CloudAuditionApi.Models
     public class MessageValidator : AbstractValidator<Message>
     {
         public MessageValidator() {
-            RuleFor(m => m.Id).GreaterThan(0);
             RuleFor(m => m.Content).NotNull().NotEmpty();
         }
     }

@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace CloudAuditionApi.UnitTests
 {
-    public class GetMessagesTest 
+    public class GetAllMessagesTest 
     {   
         [Test]
         public async Task ReturnsExpectedCount() 
@@ -21,7 +21,7 @@ namespace CloudAuditionApi.UnitTests
 
             var controller = new MessagesController(mockService.Object);
 
-            var result = await controller.GetMessagesAsync();
+            var result = await controller.GetAllAsync();
 
             Assert.That(result.Value.Count(), Is.EqualTo(2));
         }
@@ -39,9 +39,28 @@ namespace CloudAuditionApi.UnitTests
 
             var controller = new MessagesController(mockService.Object);
 
-            var result = await controller.GetMessageAsync(3);
+            var result = await controller.GetAsync(3);
 
             Assert.That(result.Value.Id, Is.EqualTo(3));
+        }
+    }
+
+    public class CreateMessageTest
+    {
+        [Test]
+        public async Task CreatesNewMessagePassValidationWithoutId() 
+        {
+            // Arrange
+            var message = new Message() { Content = "Hello World" };
+            var mockService = new Mock<IMessageDbService>();
+            mockService.Setup(service => service.CreateAsync(message))
+                .Callback(() => message.Id = 1);
+
+            var controller = new MessagesController(mockService.Object);
+
+            var result = await controller.CreateAsync(message);
+
+            Assert.That(message.Id, Is.GreaterThan(0));
         }
     }
 
