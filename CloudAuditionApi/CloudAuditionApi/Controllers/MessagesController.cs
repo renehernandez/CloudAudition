@@ -21,13 +21,13 @@ namespace CloudAuditionApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Message>>> GetMessagesAsync()
+        public async Task<ActionResult<IEnumerable<Message>>> GetAllAsync()
         {
             return await _service.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Message>> GetMessageAsync(long id)
+        public async Task<ActionResult<Message>> GetAsync(long id)
         {
             var message = await _service.FindAsync(id);
 
@@ -44,7 +44,7 @@ namespace CloudAuditionApi.Controllers
         {
             await _service.CreateAsync(message);
 
-            return CreatedAtAction(nameof(GetMessageAsync), new { id = message.Id }, message);
+            return CreatedAtAction(nameof(GetAsync), new { id = message.Id }, message);
         }
 
         [HttpPut("{id}")]
