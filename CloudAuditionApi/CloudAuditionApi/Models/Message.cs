@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+using CloudAuditionApi.Palindrome;
 using FluentValidation;
 
 namespace CloudAuditionApi.Models
@@ -8,6 +8,10 @@ namespace CloudAuditionApi.Models
         public long Id { get; set; }
 
         public string Content { get; set; }
+
+        public bool IsPalindrome { 
+            get { return PalindromeEvaluatorFactory.GetEvaluator().IsPalindrome(Content); }
+        }
     }
 
     public class MessageValidator : AbstractValidator<Message>
